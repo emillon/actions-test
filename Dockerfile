@@ -7,6 +7,5 @@ RUN cd /home/opam/opam-repository && git pull
 RUN opam update
 RUN opam install dune ocamlformat
 USER root
-ENV PATH="/home/opam/.opam/4.07/bin:${PATH}"
-COPY "entrypoint.sh" "/entrypoint.sh"
-ENTRYPOINT ["/entrypoint.sh"]
+ENV PATH="/home/opam/.opam/4.08/bin:${PATH}"
+ENTRYPOINT [ "sh", "-c", "dune build @fmt" ]
