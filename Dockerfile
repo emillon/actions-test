@@ -7,5 +7,4 @@ RUN cd /home/opam/opam-repository && git pull
 RUN opam update
 RUN opam install dune ocamlformat
 USER root
-WORKDIR $GITHUB_WORKSPACE
 ENTRYPOINT dune build @fmt
