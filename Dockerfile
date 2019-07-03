@@ -8,4 +8,5 @@ RUN opam update
 RUN opam install dune ocamlformat
 USER root
 ENV PATH="/home/opam/.opam/4.07/bin:${PATH}"
-ENTRYPOINT ["/home/opam/.opam/4.07/bin/dune", "build", "@fmt"]
+COPY "entrypoint.sh" "/entrypoint.sh"
+ENTRYPOINT ["/entrypoint.sh"]
