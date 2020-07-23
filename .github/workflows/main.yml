@@ -7,8 +7,23 @@ on:
     branches: [ changelog-check ]
 
 jobs:
+  check_label:
+    steps:
+      - id: has_label
+        name: Check label
+        env:
+          HAS_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'enhancement') }}
+        run: exit $HAS_LABEL
+
+    outputs:
+      status: ${{ steps.has_label.conclusion }}
+
   build:
     runs-on: ubuntu-18.04
+
+    needs: check_label
+
+    if: needs.check_label.outputs.status == 'success'
 
     steps:
     - uses: actions/checkout@v2
@@ -16,6 +31,10 @@ jobs:
     - name: git status
       run: |
         git status
+
+    - name: git diff
+      run: |
+        git diff master..@
 
     - name: Dump GitHub context
       env:
