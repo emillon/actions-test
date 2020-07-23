@@ -8,6 +8,8 @@ on:
 
 jobs:
   check_label:
+    runs-on: ubuntu-18.04
+
     steps:
       - id: has_label
         name: Check label
