@@ -13,17 +13,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
       
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ github.event.pull_request.base.ref }}
-      run: echo "$GITHUB_CONTEXT"
-
     - name: git diff
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'no-changelog-needed') }}
+      env:
+        BASE_REF: ${{ github.event.pull_request.base.ref }}
       run: |
-        git diff master..@
+        git diff $BASE_REF..@ -- CHANGES.md
