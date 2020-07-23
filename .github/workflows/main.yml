@@ -28,4 +28,4 @@ jobs:
       env:
         BASE_REF: ${{ github.event.pull_request.base.ref }}
       run: |
-        git diff $BASE_REF -- CHANGES.md
+        git diff origin/$BASE_REF -- CHANGES.md
