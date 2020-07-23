@@ -7,7 +7,7 @@ on:
     branches: [ changelog-check ]
 
 jobs:
-  check_label:
+  needs_changelog_entry:
     runs-on: ubuntu-18.04
 
     steps:
@@ -15,7 +15,7 @@ jobs:
         name: Check label
         env:
           HAS_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'enhancement') }}
-        run: test $HAS_LABEL = true
+        run: test $HAS_LABEL = false
 
     outputs:
       status: ${{ steps.has_label.conclusion }}
@@ -23,47 +23,23 @@ jobs:
   build:
     runs-on: ubuntu-18.04
 
-    needs: check_label
+    needs: needs_changelog_entry
 
-    if: needs.check_label.outputs.status == 'success'
+    if: needs.needs_changelog_entry.outputs.status == 'success'
 
     steps:
     - uses: actions/checkout@v2
       
-    - name: git status
-      run: |
-        git status
-
-    - name: git diff
-      run: |
-        git diff master..@
-
     - name: Dump GitHub context
       env:
         GITHUB_CONTEXT: ${{ toJson(github) }}
       run: echo "$GITHUB_CONTEXT"
 
-    - name: Dump job context
+    - name: Dump GitHub context
       env:
-        JOB_CONTEXT: ${{ toJson(job) }}
-      run: echo "$JOB_CONTEXT"
+        GITHUB_CONTEXT: ${{ toJson(github.event.pull_request) }}
+      run: echo "$GITHUB_CONTEXT"
 
-    - name: Dump steps context
-      env:
-        STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: echo "$STEPS_CONTEXT"
-
-    - name: Dump runner context
-      env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: echo "$RUNNER_CONTEXT"
-
-    - name: Dump strategy context
-      env:
-        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-      run: echo "$STRATEGY_CONTEXT"
-
-    - name: Dump matrix context
-      env:
-        MATRIX_CONTEXT: ${{ toJson(matrix) }}
-      run: echo "$MATRIX_CONTEXT"
+    - name: git diff
+      run: |
+        git diff master..@
