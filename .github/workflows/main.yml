@@ -27,4 +27,4 @@ jobs:
       env:
         BASE_REF: ${{ github.event.pull_request.base.ref }}
       run: |
-        ! git diff origin/$BASE_REF -- CHANGES.md
+        ! git diff --exit-code origin/$BASE_REF -- CHANGES.md
