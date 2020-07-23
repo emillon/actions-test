@@ -1,4 +1,4 @@
-name: CI
+name: Changelog check
 
 on:
   push:
@@ -20,7 +20,7 @@ jobs:
 
     - name: Dump GitHub context
       env:
-        GITHUB_CONTEXT: ${{ toJson(github.event.pull_request) }}
+        GITHUB_CONTEXT: ${{ github.event.pull_request.base.ref }}
       run: echo "$GITHUB_CONTEXT"
 
     - name: git diff
