@@ -10,10 +10,6 @@ jobs:
   changelog:
     runs-on: ubuntu-18.04
 
-    needs: needs_changelog_entry
-
-    if: needs.needs_changelog_entry.outputs.status == 'success'
-
     steps:
     - uses: actions/checkout@v2
       
