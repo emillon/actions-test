@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [ changelog-check ]
+  pull_request:
+    branches: [ changelog-check ]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: find
+      run: |
+        find .
+
+    - name: git status
+      run: |
+        git status
