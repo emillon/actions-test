@@ -15,7 +15,8 @@ jobs:
         name: Check label
         env:
           HAS_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'enhancement') }}
-        run: [ $HAS_LABEL = true ]
+        run: |
+          [ $HAS_LABEL = true ]
 
     outputs:
       status: ${{ steps.has_label.conclusion }}
