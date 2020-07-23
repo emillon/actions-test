@@ -12,14 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - run: git branch
-
-    - run: git branch -r
-
-    - run: echo "$GITHUB_CONTEXT"
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github.event) }}
-
     - name: git diff
       if: ${{ !contains(github.event.pull_request.labels.*.name, 'no-changelog-needed') }}
       env:
