@@ -7,20 +7,7 @@ on:
     branches: [ changelog-check ]
 
 jobs:
-  needs_changelog_entry:
-    runs-on: ubuntu-18.04
-
-    steps:
-      - id: has_label
-        name: Check label
-        env:
-          HAS_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'enhancement') }}
-        run: test $HAS_LABEL = false
-
-    outputs:
-      status: ${{ steps.has_label.conclusion }}
-
-  build:
+  changelog:
     runs-on: ubuntu-18.04
 
     needs: needs_changelog_entry
@@ -41,5 +28,6 @@ jobs:
       run: echo "$GITHUB_CONTEXT"
 
     - name: git diff
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'no-changelog-needed') }}
       run: |
         git diff master..@
