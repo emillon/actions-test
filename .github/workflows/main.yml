@@ -7,7 +7,7 @@ on:
     branches: [ changelog-check ]
 
 jobs:
-  changelog:
+  build:
     runs-on: ubuntu-18.04
 
     steps:
