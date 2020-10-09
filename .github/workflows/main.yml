@@ -11,16 +11,12 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
-    - name: display context
-      env:
-        CONTEXT: ${{ toJson(github) }}
-      run: echo "$CONTEXT"
-
     - name: find placeholder
       env:
         owner: emillon
         repo: actions-test
         pull_number: 2
+        commit_id: ${{ github.event.pull_request.head.sha }}
         BASE_REF: ${{ github.event.pull_request.base.ref }}
       run: |
         git diff origin/$BASE_REF -- CHANGES.md | grep --line-number '#this'
@@ -30,4 +26,4 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           "https://api.github.com/repos/$owner/$repo/pulls/$pull_number/comments" \
-          -d "{\"body\":\"found it\",\"path\":\"CHANGES.md\",\"commit_id\":\"$GITHUB_SHA\",\"position\":5}"
+          -d "{\"body\":\"found it\",\"path\":\"CHANGES.md\",\"commit_id\":\"$commit_id\",\"position\":5}"
