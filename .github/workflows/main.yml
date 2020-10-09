@@ -11,6 +11,11 @@ jobs:
     steps:
     - uses: actions/checkout@v1
 
+    - name: display context
+      env:
+        CONTEXT: ${{ toJson(github) }}
+      run: echo "$CONTEXT"
+
     - name: find placeholder
       env:
         owner: emillon
