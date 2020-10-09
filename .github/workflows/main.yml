@@ -13,7 +13,7 @@ jobs:
 
     - name: find placeholder
       env:
-        pull_number: github.event.pull_request.number
+        pull_number: ${{ github.event.pull_request.number }}
         comments_url: ${{ github.event.pull_request.review_comments_url }}
         commit_id: ${{ github.event.pull_request.head.sha }}
         BASE_REF: ${{ github.event.pull_request.base.ref }}
