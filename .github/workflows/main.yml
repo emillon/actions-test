@@ -32,7 +32,7 @@ jobs:
         .body=$body |
         .path="CHANGES.md" |
         .commit_id=$commit_id |
-        .position=$position
+        .position=($position|tonumber)
         ' |
         curl \
           -X POST \
