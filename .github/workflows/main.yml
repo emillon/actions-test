@@ -26,7 +26,7 @@ jobs:
         body=$(printf '```suggestion\n%s\n```\n' "${original/this/$pull_number}")
         jq -n \
         --arg commit_id "$commit_id" \
-        --arg body "$body"
+        --arg body "$body" \
         '{} |
         .body=$body |
         .path="CHANGES.md" |
