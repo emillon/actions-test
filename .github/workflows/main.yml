@@ -27,6 +27,7 @@ jobs:
         jq -n \
         --arg commit_id "$commit_id" \
         --arg body "$body" \
+        --arg position "$position" \
         '{} |
         .body=$body |
         .path="CHANGES.md" |
