@@ -18,7 +18,9 @@ jobs:
         commit_id: ${{ github.event.pull_request.head.sha }}
         BASE_REF: ${{ github.event.pull_request.base.ref }}
       run: |
-        line=$(git diff origin/$BASE_REF -- CHANGES.md | grep --line-number '#this')
+        if ! line=$(git diff origin/$BASE_REF -- CHANGES.md | grep --line-number '#this') ; then
+          exit 0
+        fi
         diffpos=$(echo $line | cut -d: -f1)
         diffcontent=$(echo $line | cut -d: -f2)
         position=$((diffpos - 5))
