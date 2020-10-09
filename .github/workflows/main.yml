@@ -19,11 +19,24 @@ jobs:
         commit_id: ${{ github.event.pull_request.head.sha }}
         BASE_REF: ${{ github.event.pull_request.base.ref }}
       run: |
-        git diff origin/$BASE_REF -- CHANGES.md | grep --line-number '#this'
-        git grep '#this' CHANGES.md || true
-        curl \
-          -X POST \
-          -H "Accept: application/vnd.github.v3+json" \
-          -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
-          "https://api.github.com/repos/$owner/$repo/pulls/$pull_number/comments" \
-          -d "{\"body\":\"found it\",\"path\":\"CHANGES.md\",\"commit_id\":\"$commit_id\",\"position\":5}"
+        line=$(git diff origin/$BASE_REF -- CHANGES.md | grep --line-number '#this')
+        diffpos=$(echo $line | cut -d: -f1)
+        diffcontent=$(echo $line | cut -d: -f2)
+        position=$((diffpos - 5))
+        echo $position
+        original=${diffpos#+}
+        echo ${original/this/$pull_number}
+        #jq -n \
+        #--arg commit_id $commit_id \
+        #'{} |
+        #.body="found it" |
+        #.path="CHANGES.md" |
+        #.commit_id=$commit_id
+        #.position=$position
+        #' |
+        #curl \
+        #  -X POST \
+        #  -H "Accept: application/vnd.github.v3+json" \
+        #  -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+        #  "https://api.github.com/repos/$owner/$repo/pulls/$pull_number/comments" \
+        #  -d @-
