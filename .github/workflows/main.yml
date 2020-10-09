@@ -25,7 +25,7 @@ jobs:
         position=$((diffpos - 5))
         echo "position=$position"
         original=${diffcontent#+}
-        printf '```suggestion\n%s\n```\n' ${original/this/$pull_number}
+        printf '```suggestion\n%s\n```\n' "${original/this/$pull_number}"
         #jq -n \
         #--arg commit_id $commit_id \
         #'{} |
