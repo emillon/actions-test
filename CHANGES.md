@@ -2,4 +2,4 @@
 
 Nothing to see here
 
-- Fix stuff (#this, @emillon)
+- Fix stuff (#2, @emillon)
