@@ -16,9 +16,8 @@ jobs:
         owner: emillon
         repo: actions-test
         pull_number: 2
-        position: 5
+        POSITION: 5
         BASE_REF: ${{ github.event.pull_request.base.ref }}
-        commit_id: $GITHUB_SHA
       run: |
         git diff origin/$BASE_REF -- CHANGES.md | grep --line-number '#this'
         git grep '#this' CHANGES.md || true
@@ -26,4 +25,4 @@ jobs:
           -X POST \
           -H "Accept: application/vnd.github.v3+json" \
           "https://api.github.com/repos/$owner/$repo/pulls/$pull_number/comments" \
-          -d '{"body":"found it","path":"CHANGES.md","position":$position}'
+          -d '{"body":"found it","path":"CHANGES.md","position":$POSITION}'
