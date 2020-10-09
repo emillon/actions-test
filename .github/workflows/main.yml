@@ -12,8 +12,5 @@ jobs:
     - uses: actions/checkout@v1
 
     - name: find placeholder
-      if: ${{ !contains(github.event.pull_request.labels.*.name, 'no-changelog-needed') }}
-      env:
-        BASE_REF: ${{ github.event.pull_request.base.ref }}
       run: |
-        git grep '#this' CHANGES.md
+        git grep '#this' CHANGES.md || true
