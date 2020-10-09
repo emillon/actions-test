@@ -25,4 +25,4 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           -H 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
           "https://api.github.com/repos/$owner/$repo/pulls/$pull_number/comments" \
-          -d '{"body":"found it","path":"CHANGES.md","position":5}'
+          -d "{\"body\":\"found it\",\"path\":\"CHANGES.md\",\"commit_id\":$GITHUB_SHA}'
