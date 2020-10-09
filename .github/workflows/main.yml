@@ -1,0 +1,19 @@
+name: Replace PR number
+
+on:
+  pull_request:
+    branches: [ changelog-check ]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: find placeholder
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'no-changelog-needed') }}
+      env:
+        BASE_REF: ${{ github.event.pull_request.base.ref }}
+      run: |
+        git grep '#this' CHANGES.md
